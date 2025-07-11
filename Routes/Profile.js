@@ -11,10 +11,10 @@ const { auth, verifyfirebaseToken } = require("../controllers/middleware/auth");
 const { Getavailablesubject } = require("../controllers/Getavalablesubjet");
 
 // ✅ CORS headers middleware (manual fix for Vercel)
-const corsHeaders = require("../controllers/middleware/corsHeaders");
+// const corsHeaders = require("../controllers/middleware/corsHeaders");
 
-// Apply CORS to all routes
-router.use(corsHeaders);
+// // Apply CORS to all routes
+// router.use(corsHeaders);
 
 // 🔒 Protected test route
 router.post("/protected", verifyfirebaseToken, (req, res) => {
@@ -38,7 +38,7 @@ router.post("/upload", upload.array("files", 5), handleUpload);
 router.post("/contact", verifyfirebaseToken, StudentContact);
 
 // 📚 Get uploaded subject data
-router.get("/getuploadedsibject", verifyfirebaseToken, Getavailablesubject);
+router.get("/getuploadedsibject", Getavailablesubject);
 
 
 module.exports = router;
