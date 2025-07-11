@@ -199,10 +199,9 @@ app.options("*", cors({
 
 // ✅ Handle all other requests
 app.use(cors({
-  origin: allowedOrigins,
-  credentials: true,
+  origin: "*",           // Allow all origins
+  credentials: false     // Cannot be true when origin is '*'
 }));
-
 // app.use(
 //   cors({
 //     origin: true, // Reflects the request origin
