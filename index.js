@@ -171,23 +171,38 @@ const app = express();
 
 
 const allowedOrigins = [
-  "http://localhost:5173",
+  "http://localhost:5173/",
  "https://collage-prep-omega.vercel.app"
   
 ];
+// app.options("*", cors({
+//   origin: allowedOrigins,
+//   credentials: true,
+// }));
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       if (!origin || allowedOrigins.includes(origin)) {
+//         callback(null, true);
+//       } else {
+//         callback(new Error("Not allowed by CORS"));
+//       }
+//     },
+//     credentials: true,
+//   })
+// );
+app.options("*", cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
+// ✅ Handle all other requests
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+}));
+
 // app.use(
 //   cors({
 //     origin: true, // Reflects the request origin
