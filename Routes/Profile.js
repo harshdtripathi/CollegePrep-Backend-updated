@@ -1,41 +1,44 @@
-const express= require("express");
+const express = require("express");
 const upload = require("../controllers/middleware/multer");
 const router = express.Router();
-const {
-    login,Signup
-}
-=require("../controllers/Auth");
-const {
-    getallSemestermaterial,
-    getsubjectmaterial
-}=
-require("../controllers/SemesterNotes");
 
-const {
-handleUpload
-}= require("../controllers/Uploadmat");
+// Controllers
+const { login, Signup } = require("../controllers/Auth");
+const { getallSemestermaterial, getsubjectmaterial } = require("../controllers/SemesterNotes");
+const { handleUpload } = require("../controllers/Uploadmat");
+const { StudentContact } = require("../controllers/StudentContact");
+const { auth, verifyfirebaseToken } = require("../controllers/middleware/auth");
+const { Getavailablesubject } = require("../controllers/Getavalablesubjet");
 
-const {StudentContact}=require("../controllers/StudentContact")
-const {auth}= require("../controllers/middleware/auth");
+// ✅ CORS headers middleware (manual fix for Vercel)
+const corsHeaders = require("../controllers/middleware/corsHeaders");
 
-const {verifyfirebaseToken}= require("../controllers/middleware/auth")
-const {logout}= require("../controllers/Logout");
-const {Getavailablesubject}= require("../controllers/Getavalablesubjet")
+// Apply CORS to all routes
+router.use(corsHeaders);
+
+// 🔒 Protected test route
 router.post("/protected", verifyfirebaseToken, (req, res) => {
-  // Now req.user is guaranteed
   return res.status(200).json({
     success: true,
     message: "You accessed a protected route!",
-    // user: req.user, // You can return user info if needed
   });
 });
 
-router.post("/login",login);
-router.post("/signup",Signup);
-router.get("/getsubjectdetails",verifyfirebaseToken,getsubjectmaterial)
-router.post("/upload", upload.array("files", 5), handleUpload);
-router.post("/contact",verifyfirebaseToken,StudentContact );
-router.get("/getuploadedsibject",verifyfirebaseToken,Getavailablesubject);
-// router.post("/logout",logout );
+// 🔐 Auth routes
+router.post("/login", login);
+router.post("/signup", Signup);
 
-module.exports=router;
+// 📄 Subject + Material
+router.get("/getsubjectdetails", verifyfirebaseToken, getsubjectmaterial);
+
+// ⬆️ Upload files (max 5 files)
+router.post("/upload", upload.array("files", 5), handleUpload);
+
+// 📩 Contact form
+router.post("/contact", verifyfirebaseToken, StudentContact);
+
+// 📚 Get uploaded subject data
+router.get("/getuploadedsibject", verifyfirebaseToken, Getavailablesubject);
+
+
+module.exports = router;
