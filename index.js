@@ -63,7 +63,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
  "https://collage-prep-omega.vercel.app",
-  "https://collage-prep-1nhg75yji-sanskar-tamrakars-projects.vercel.app/"
+  "https://collage-prep-1nhg75yji-sanskar-tamrakars-projects.vercel.app"
   
   
 ];
