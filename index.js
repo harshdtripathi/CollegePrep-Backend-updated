@@ -66,6 +66,7 @@ const allowedOrigins = [
   "https://collage-prep-1nhg75yji-sanskar-tamrakars-projects.vercel.app"
   
   
+  
 ];
 
 app.use(
